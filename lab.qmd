@@ -29,4 +29,4 @@ grades |>
 ```{r}
 n_abs <- grades |> count(is.na(Exam))
 ```
-The number of students who did not take the exam is `r n_abs`.
+The number of students who did not take the exam is `r n_abs[2,2]`.
