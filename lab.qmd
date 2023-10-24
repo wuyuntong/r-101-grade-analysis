@@ -43,7 +43,13 @@ grades |> ggplot(aes(x = Exam)) + geom_bar()
 grades |> 
   group_by(Group) |>
   mutate(N = n()) |> 
-  select(Group, N) |> 
   knitr::kable()
 ```
 
+## Quesiton 6
+```{r}
+grades |> 
+  group_by(Group) |>
+  mutate(N = n()) |> 
+  ggplot(aes(x=Group)) + geom_bar()
+```
