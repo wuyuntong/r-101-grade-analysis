@@ -11,9 +11,22 @@ library(vroom)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(knitr)
 ```
 
 ## Question 1
 ```{r}
 grades <- vroom(here("grades.csv"))
 ```
+## Question 2
+```{r}
+grades |> 
+  summarise(`max grade` = max(Exam, na.rm=TRUE), `min grade` = min(Exam, na.rm=TRUE), `median grade` = median(Exam, na.rm=TRUE), `mean grade` = mean(Exam, na.rm=TRUE)) |>
+  knitr::kable()
+```
+
+## Question 3
+```{r}
+n_abs <- grades |> count(is.na(Exam))
+```
+The number of students who did not take the exam is `r n_abs`.
