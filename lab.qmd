@@ -40,16 +40,26 @@ grades |> ggplot(aes(x = Exam)) + geom_bar()
 
 ## Question 5
 ```{r}
-grades |> 
+n_group <- grades |> 
   group_by(Group) |>
-  mutate(N = n()) |> 
-  knitr::kable()
+  mutate(N = n())
+
+knitr::kable(n_group)
 ```
 
 ## Quesiton 6
 ```{r}
-grades |> 
-  group_by(Group) |>
-  mutate(N = n()) |> 
-  ggplot(aes(x=Group)) + geom_bar()
+n_group |>  ggplot(aes(x=Group)) + geom_bar()
 ```
+# Question 7
+```{r, warning=FALSE}
+n_group |>
+  ggplot(aes(y=Group, fill=Exam)) + 
+  geom_bar(position = 'fill') +
+  theme(legend.position = "none")
+```
+```{r warning=FALSE}
+n_group |> ggplot(aes(y=Exam)) + geom_bar() + facet_wrap(~Group)
+          
+```
+
