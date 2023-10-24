@@ -65,8 +65,3 @@ n_group |> ggplot(aes(y=Exam)) + geom_bar() + facet_wrap(~Group)
 ```{r}
 n_abs_by_group <- grades |> group_by(Group) |> summarise(n_abs=sum(is.na(Exam)))
 ```
-
-## Question 9
-```{r}
-n_abs_by_group |> ggplot(aes(x=Group, y=n_abs)) + geom_col()
-```
