@@ -162,4 +162,13 @@ two_col_table2 <- long |>
   summarise("Missed" = (sum(is.na(value)) > 0)) |> 
   summarise("P_missed" = sum(Missed) / n())
 ```
+# Question 18
+```{r}
+  grades |> 
+  group_by(Group) |>
+  summarise("Average grade" = mean(Exam, na.rm = TRUE)) |>
+  inner_join(two_col_table2, by = "Group")  |>
+  ggplot(aes(x = P_missed, y = `Average grade`)) +
+  geom_line()
+```
 
