@@ -61,7 +61,7 @@ grades |>
 ```{r}
 grades |> 
   ggplot(aes(y = Group)) +
-  geom_bar()
+  geom_bar(na.rm=TRUE)
 ```
 
 # Question 7
@@ -137,3 +137,14 @@ n_missing_online_tests <- long |>
   group_by(Id) |>
   summarise("number of missing online tests" = sum(is.na(value)))
 ```
+
+
+# Question 15
+```{r}
+inner_join(grades, n_missing_online_tests, by = "Id") |>
+  ggplot(aes(y = `number of missing online tests`, fill = Exam)) +
+  geom_bar(na.rm=TRUE)
+```
+
+
+
