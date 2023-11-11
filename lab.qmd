@@ -49,25 +49,24 @@ grades |>
 ## Question 5
 
 ```{r}
-n_group <- grades |>
+grades |>
   group_by(Group) |>
-  mutate(N = n())
-
-knitr::kable(n_group)
+  summarise("number of students" = n()) |>
+  knitr::kable()
 ```
 
 ## Quesiton 6
 
 ```{r}
-n_group |> 
-  ggplot(aes(x = Group)) +
+grades |> 
+  ggplot(aes(y = Group)) +
   geom_bar()
 ```
 
 # Question 7
 
 ```{r, warning=FALSE}
-n_group |>
+grades |>
   ggplot(aes(y = Group, fill = Exam)) +
   geom_bar(position = "fill") +
   theme(legend.position = "none")
