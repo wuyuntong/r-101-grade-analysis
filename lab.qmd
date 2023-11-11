@@ -146,5 +146,11 @@ inner_join(grades, n_missing_online_tests, by = "Id") |>
   geom_bar(na.rm=TRUE)
 ```
 
-
+# Question 16
+```{r}
+two_col_table <- long |>
+  filter(str_starts(name, "MCQ"))|>
+  group_by(Id) |>
+  summarise("Missed"= (sum(is.na(value)) > 0))
+```
 
