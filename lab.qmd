@@ -12,6 +12,7 @@ library(vroom)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(stringr)
 library(knitr)
 ```
 
@@ -129,4 +130,10 @@ n_abs2
 ```
 
 
-
+# Question 14
+```{r}
+n_missing_online_tests <- long |>
+  filter(str_starts(name, "Online_MCQ")) |>
+  group_by(Id) |>
+  summarise("number of missing online tests" = sum(is.na(value)))
+```
