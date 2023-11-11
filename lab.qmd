@@ -68,19 +68,47 @@ grades |>
 ```{r, warning=FALSE}
 grades |>
   ggplot(aes(y = Group, fill = Exam)) +
-  geom_bar(position = "fill") +
-  theme(legend.position = "none")
+  geom_bar(position = "fill") 
+  
 ```
 
 ```{r warning=FALSE}
-n_group |>
+grades |>
   ggplot(aes(y = Exam)) +
   geom_bar() +
   facet_wrap(~Group)
 ```
+# Question 8
 
 ```{r}
-n_abs_by_group <- grades |>
+n_abs <- grades |>
   group_by(Group) |>
-  summarise(n_abs = sum(is.na(Exam)))
+  summarise("number of absent students" = sum(is.na(Exam)))
+
+n_abs
 ```
+
+# Question 9
+
+```{r}
+n_abs |> 
+  ggplot(aes(y = Group, x = `number of absent students`)) +
+  geom_col()
+```
+
+# Question 10
+
+```{r}
+long <- grades |>
+  pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value") 
+```
+
+# Question 11
+```{r}
+n_missing_grade <- long |>
+  group_by(Id) |>
+  summarise("number of absent grades" = sum(is.na(value)))
+
+n_missing_grade
+```
+
