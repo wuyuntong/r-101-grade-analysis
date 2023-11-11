@@ -81,11 +81,11 @@ grades |>
 # Question 8
 
 ```{r}
-n_abs <- grades |>
+n_abs1 <- grades |>
   group_by(Group) |>
   summarise("number of absent students" = sum(is.na(Exam)))
 
-n_abs
+n_abs1
 ```
 
 # Question 9
@@ -97,14 +97,12 @@ n_abs |>
 ```
 
 # Question 10
-
 ```{r}
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value") 
 ```
 
 # Question 11
-
 ```{r}
 n_missing_grade <- long |>
   group_by(Id) |>
@@ -118,4 +116,17 @@ n_missing_grade
 n_missing_grade |> ggplot(aes(y = `number of absent grades`)) +
   geom_bar()
 ```
+
+
+# Question 13
+```{r}
+n_abs2 <- long |> 
+  filter(name == "Exam") |>
+  group_by(Group) |>
+  summarise("number of absent students" = sum(is.na(value)))
+
+n_abs2
+```
+
+
 
