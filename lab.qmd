@@ -104,11 +104,18 @@ long <- grades |>
 ```
 
 # Question 11
+
 ```{r}
 n_missing_grade <- long |>
   group_by(Id) |>
   summarise("number of absent grades" = sum(is.na(value)))
 
 n_missing_grade
+```
+
+# Question 12
+```{r}
+n_missing_grade |> ggplot(aes(y = `number of absent grades`)) +
+  geom_bar()
 ```
 
