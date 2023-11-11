@@ -2,6 +2,7 @@
 title: "Grade analysis"
 format: html
 editor: visual
+author: Yuntong Wu
 ---
 
 ```{r, message=FALSE, warning=FALSE}
@@ -15,32 +16,40 @@ library(knitr)
 ```
 
 ## Question 1
+
 ```{r}
 grades <- vroom(here("grades.csv"))
 ```
+
 ## Question 2
+
 ```{r}
-grades |> 
-  summarise(`max grade` = max(Exam, na.rm=TRUE), `min grade` = min(Exam, na.rm=TRUE), `median grade` = median(Exam, na.rm=TRUE), `mean grade` = mean(Exam, na.rm=TRUE)) |>
+grades |>
+  summarise("max grade" = max(Exam, na.rm = TRUE), "min grade" = min(Exam, na.rm = TRUE), "median grade" = median(Exam, na.rm = TRUE), "mean grade" = mean(Exam, na.rm = TRUE)) |>
   knitr::kable()
 ```
 
 ## Question 3
+
 ```{r}
-n_abs <- grades |> count(is.na(Exam))
+n_abs <- grades |> 
+  count(is.na(Exam))
 ```
+
 The number of students who did not take the exam is `r n_abs[2,2]`.
 
-
 ## Question 4
+
 ```{r warning=FALSE}
-grades |> ggplot(aes(x = Exam)) + geom_bar()
+grades |> 
+  ggplot(aes(x = Exam)) +
+  geom_bar()
 ```
 
-
 ## Question 5
+
 ```{r}
-n_group <- grades |> 
+n_group <- grades |>
   group_by(Group) |>
   mutate(N = n())
 
@@ -48,20 +57,31 @@ knitr::kable(n_group)
 ```
 
 ## Quesiton 6
+
 ```{r}
-n_group |>  ggplot(aes(x=Group)) + geom_bar()
+n_group |> 
+  ggplot(aes(x = Group)) +
+  geom_bar()
 ```
+
 # Question 7
+
 ```{r, warning=FALSE}
 n_group |>
-  ggplot(aes(y=Group, fill=Exam)) + 
-  geom_bar(position = 'fill') +
+  ggplot(aes(y = Group, fill = Exam)) +
+  geom_bar(position = "fill") +
   theme(legend.position = "none")
 ```
+
 ```{r warning=FALSE}
-n_group |> ggplot(aes(y=Exam)) + geom_bar() + facet_wrap(~Group)
-          
+n_group |>
+  ggplot(aes(y = Exam)) +
+  geom_bar() +
+  facet_wrap(~Group)
 ```
+
 ```{r}
-n_abs_by_group <- grades |> group_by(Group) |> summarise(n_abs=sum(is.na(Exam)))
+n_abs_by_group <- grades |>
+  group_by(Group) |>
+  summarise(n_abs = sum(is.na(Exam)))
 ```
