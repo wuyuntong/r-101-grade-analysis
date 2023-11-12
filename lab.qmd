@@ -3,6 +3,8 @@ title: "Grade analysis"
 format: html
 editor: visual
 author: Yuntong Wu
+execute: 
+  keep-md: true
 ---
 
 Link to GitHub repository: https://github.com/wuyuntong/r-101-grade-analysis.
@@ -35,8 +37,8 @@ grades |>
 ## Question 3
 
 ```{r}
-n_abs <- grades |> 
- summarise(n = sum(is.na(Exam)))
+n_abs <- grades |>
+  summarise(n = sum(is.na(Exam)))
 ```
 
 The number of students who did not take the exam is `r n_abs[1,1]`.
@@ -44,7 +46,7 @@ The number of students who did not take the exam is `r n_abs[1,1]`.
 ## Question 4
 
 ```{r}
-grades |> 
+grades |>
   ggplot(aes(x = Exam)) +
   geom_bar(na.rm = TRUE)
 ```
@@ -61,7 +63,7 @@ grades |>
 ## Quesiton 6
 
 ```{r}
-grades |> 
+grades |>
   ggplot(aes(y = Group)) +
   geom_bar()
 ```
@@ -96,7 +98,7 @@ n_abs1
 # Question 9
 
 ```{r}
-n_abs1 |> 
+n_abs1 |>
   ggplot(aes(y = Group, x = `number of absent students`)) +
   geom_col()
 ```
@@ -105,7 +107,7 @@ n_abs1 |>
 
 ```{r}
 long <- grades |>
-  pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value") 
+  pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value")
 
 long
 ```
@@ -130,7 +132,7 @@ n_missing_grade |> ggplot(aes(y = `number of missing grades`)) +
 # Question 13
 
 ```{r}
-n_abs2 <- long |> 
+n_abs2 <- long |>
   filter(name == "Exam") |>
   group_by(Group) |>
   summarise("number of absent students" = sum(is.na(value)))
@@ -163,9 +165,9 @@ inner_join(grades, n_missing_online_tests, by = "Id") |>
 
 ```{r}
 two_col_table1 <- long |>
-  filter(str_starts(name, "MCQ"))|>
+  filter(str_starts(name, "MCQ")) |>
   group_by(Id) |>
-  summarise("Missed"= (sum(is.na(value)) > 0))
+  summarise("Missed" = (sum(is.na(value)) > 0))
 
 two_col_table1
 ```
@@ -174,8 +176,8 @@ two_col_table1
 
 ```{r}
 two_col_table2 <- long |>
-  filter(str_starts(name, "MCQ"))|> 
-  group_by(Group, Id) |> 
+  filter(str_starts(name, "MCQ")) |>
+  group_by(Group, Id) |>
   summarise("Missed" = (sum(is.na(value)) > 0), .groups = "drop_last") |>
   group_by(Group) |>
   summarise("P_missed" = sum(Missed) / n())
@@ -184,11 +186,12 @@ two_col_table2
 ```
 
 # Question 18
+
 ```{r}
-  grades |> 
+grades |>
   group_by(Group) |>
   summarise("Average grade" = mean(Exam, na.rm = TRUE)) |>
-  inner_join(two_col_table2, by = "Group")  |>
+  inner_join(two_col_table2, by = "Group") |>
   ggplot(aes(x = P_missed, y = `Average grade`)) +
   geom_point()
 ```
