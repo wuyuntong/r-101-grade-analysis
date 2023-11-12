@@ -4,6 +4,7 @@ format: html
 editor: visual
 author: Yuntong Wu
 ---
+
 Link to GitHub repository: https://github.com/wuyuntong/r-101-grade-analysis.
 
 ```{r, message=FALSE, warning=FALSE}
@@ -18,12 +19,13 @@ library(knitr)
 ```
 
 ## Question 1
+
 ```{r}
 grades <- vroom(here("grades.csv"))
 ```
 
-
 ## Question 2
+
 ```{r}
 grades |>
   summarise("max grade" = max(Exam, na.rm = TRUE), "min grade" = min(Exam, na.rm = TRUE), "median grade" = median(Exam, na.rm = TRUE), "mean grade" = mean(Exam, na.rm = TRUE)) |>
@@ -31,22 +33,24 @@ grades |>
 ```
 
 ## Question 3
+
 ```{r}
 n_abs <- grades |> 
  summarise(n = sum(is.na(Exam)))
 ```
+
 The number of students who did not take the exam is `r n_abs[1,1]`.
 
-
 ## Question 4
+
 ```{r}
 grades |> 
   ggplot(aes(x = Exam)) +
   geom_bar(na.rm = TRUE)
 ```
 
-
 ## Question 5
+
 ```{r}
 grades |>
   group_by(Group) |>
@@ -54,8 +58,8 @@ grades |>
   knitr::kable()
 ```
 
-
 ## Quesiton 6
+
 ```{r}
 grades |> 
   ggplot(aes(y = Group)) +
@@ -63,6 +67,7 @@ grades |>
 ```
 
 # Question 7
+
 ```{r}
 grades |>
   ggplot(aes(y = Group, fill = as.factor(Exam))) +
@@ -70,7 +75,6 @@ grades |>
   scale_fill_discrete(name = "Exam grade") +
   xlab("frequency")
 ```
-
 
 ```{r}
 grades |>
@@ -80,6 +84,7 @@ grades |>
 ```
 
 # Question 8
+
 ```{r}
 n_abs1 <- grades |>
   group_by(Group) |>
@@ -88,15 +93,16 @@ n_abs1 <- grades |>
 n_abs1
 ```
 
-
 # Question 9
+
 ```{r}
-n_abs |> 
+n_abs1 |> 
   ggplot(aes(y = Group, x = `number of absent students`)) +
   geom_col()
 ```
 
 # Question 10
+
 ```{r}
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value") 
@@ -105,6 +111,7 @@ long
 ```
 
 # Question 11
+
 ```{r}
 n_missing_grade <- long |>
   group_by(Id) |>
@@ -114,13 +121,14 @@ n_missing_grade
 ```
 
 # Question 12
+
 ```{r}
 n_missing_grade |> ggplot(aes(y = `number of missing grades`)) +
   geom_bar()
 ```
 
-
 # Question 13
+
 ```{r}
 n_abs2 <- long |> 
   filter(name == "Exam") |>
@@ -130,8 +138,8 @@ n_abs2 <- long |>
 n_abs2
 ```
 
-
 # Question 14
+
 ```{r}
 n_missing_online_tests <- long |>
   filter(str_starts(name, "Online_MCQ")) |>
@@ -141,8 +149,8 @@ n_missing_online_tests <- long |>
 n_missing_online_tests
 ```
 
-
 # Question 15
+
 ```{r}
 inner_join(grades, n_missing_online_tests, by = "Id") |>
   ggplot(aes(y = `number of missing online tests`, fill = as.factor(Exam))) +
@@ -152,6 +160,7 @@ inner_join(grades, n_missing_online_tests, by = "Id") |>
 ```
 
 # Question 16
+
 ```{r}
 two_col_table1 <- long |>
   filter(str_starts(name, "MCQ"))|>
@@ -162,15 +171,18 @@ two_col_table1
 ```
 
 # Question 17
+
 ```{r}
 two_col_table2 <- long |>
   filter(str_starts(name, "MCQ"))|> 
   group_by(Group, Id) |> 
-  summarise("Missed" = (sum(is.na(value)) > 0)) |> 
+  summarise("Missed" = (sum(is.na(value)) > 0), .groups = "drop_last") |>
+  group_by(Group) |>
   summarise("P_missed" = sum(Missed) / n())
 
 two_col_table2
 ```
+
 # Question 18
 ```{r}
   grades |> 
@@ -178,6 +190,5 @@ two_col_table2
   summarise("Average grade" = mean(Exam, na.rm = TRUE)) |>
   inner_join(two_col_table2, by = "Group")  |>
   ggplot(aes(x = P_missed, y = `Average grade`)) +
-  geom_line()
+  geom_point()
 ```
-
