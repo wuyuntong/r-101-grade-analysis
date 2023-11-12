@@ -67,7 +67,8 @@ grades |>
 grades |>
   ggplot(aes(y = Group, fill = as.factor(Exam))) +
   geom_bar(position = "fill") +
-  scale_fill_discrete(name = "Exam grade")
+  scale_fill_discrete(name = "Exam grade") +
+  xlab("frequency")
 ```
 
 
@@ -156,6 +157,8 @@ two_col_table1 <- long |>
   filter(str_starts(name, "MCQ"))|>
   group_by(Id) |>
   summarise("Missed"= (sum(is.na(value)) > 0))
+
+two_col_table1
 ```
 
 # Question 17
@@ -165,6 +168,8 @@ two_col_table2 <- long |>
   group_by(Group, Id) |> 
   summarise("Missed" = (sum(is.na(value)) > 0)) |> 
   summarise("P_missed" = sum(Missed) / n())
+
+two_col_table2
 ```
 # Question 18
 ```{r}
