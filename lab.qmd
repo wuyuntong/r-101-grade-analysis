@@ -37,6 +37,7 @@ n_abs <- grades |>
 ```
 The number of students who did not take the exam is `r n_abs[1,1]`.
 
+
 ## Question 4
 ```{r}
 grades |> 
@@ -44,8 +45,8 @@ grades |>
   geom_bar(na.rm = TRUE)
 ```
 
-## Question 5
 
+## Question 5
 ```{r}
 grades |>
   group_by(Group) |>
@@ -53,22 +54,22 @@ grades |>
   knitr::kable()
 ```
 
-## Quesiton 6
 
+## Quesiton 6
 ```{r}
 grades |> 
   ggplot(aes(y = Group)) +
-  geom_bar(na.rm=TRUE)
+  geom_bar()
 ```
 
 # Question 7
-
 ```{r, warning=FALSE}
 grades |>
   ggplot(aes(y = Group, fill = Exam)) +
   geom_bar(position = "fill") 
   
 ```
+
 
 ```{r warning=FALSE}
 grades |>
