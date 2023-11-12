@@ -63,11 +63,11 @@ grades |>
 ```
 
 # Question 7
-```{r, warning=FALSE}
+```{r}
 grades |>
-  ggplot(aes(y = Group, fill = Exam)) +
-  geom_bar(position = "fill") 
-  
+  ggplot(aes(y = Group, fill = as.factor(Exam))) +
+  geom_bar(position = "fill") +
+  scale_fill_discrete(name = "Exam grade")
 ```
 
 
