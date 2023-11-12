@@ -71,14 +71,14 @@ grades |>
 ```
 
 
-```{r warning=FALSE}
+```{r}
 grades |>
   ggplot(aes(y = Exam)) +
-  geom_bar() +
+  geom_bar(na.rm = TRUE) +
   facet_wrap(~Group)
 ```
-# Question 8
 
+# Question 8
 ```{r}
 n_abs1 <- grades |>
   group_by(Group) |>
@@ -87,8 +87,8 @@ n_abs1 <- grades |>
 n_abs1
 ```
 
-# Question 9
 
+# Question 9
 ```{r}
 n_abs |> 
   ggplot(aes(y = Group, x = `number of absent students`)) +
@@ -99,20 +99,22 @@ n_abs |>
 ```{r}
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value") 
+
+long
 ```
 
 # Question 11
 ```{r}
 n_missing_grade <- long |>
   group_by(Id) |>
-  summarise("number of absent grades" = sum(is.na(value)))
+  summarise("number of missing grades" = sum(is.na(value)))
 
 n_missing_grade
 ```
 
 # Question 12
 ```{r}
-n_missing_grade |> ggplot(aes(y = `number of absent grades`)) +
+n_missing_grade |> ggplot(aes(y = `number of missing grades`)) +
   geom_bar()
 ```
 
@@ -134,14 +136,18 @@ n_missing_online_tests <- long |>
   filter(str_starts(name, "Online_MCQ")) |>
   group_by(Id) |>
   summarise("number of missing online tests" = sum(is.na(value)))
+
+n_missing_online_tests
 ```
 
 
 # Question 15
 ```{r}
 inner_join(grades, n_missing_online_tests, by = "Id") |>
-  ggplot(aes(y = `number of missing online tests`, fill = Exam)) +
-  geom_bar(na.rm=TRUE)
+  ggplot(aes(y = `number of missing online tests`, fill = as.factor(Exam))) +
+  geom_bar(position = "fill") +
+  scale_fill_discrete(name = "Exam grade") +
+  xlab("frequency")
 ```
 
 # Question 16
