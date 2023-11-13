@@ -80,7 +80,7 @@ grades |>
 
 ```{r}
 grades |>
-  ggplot(aes(y = Exam)) +
+  ggplot(aes(x = Exam)) +
   geom_bar(na.rm = TRUE) +
   facet_wrap(~Group)
 ```
