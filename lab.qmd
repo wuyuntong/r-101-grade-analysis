@@ -109,7 +109,7 @@ n_abs1 |>
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value")
 
-knitr::kable(long)
+knitr::kable(long, digits = 2)
 ```
 
 # Question 11
