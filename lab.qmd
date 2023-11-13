@@ -109,7 +109,7 @@ n_abs1 |>
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value")
 
-knitr::kable(long, digits = 2)
+long
 ```
 
 # Question 11
@@ -182,7 +182,7 @@ two_col_table2 <- long |>
   group_by(Group) |>
   summarise("P_missed" = sum(Missed) / n())
 
-two_col_table2
+knitr::kable(two_col_table2)
 ```
 
 # Question 18
