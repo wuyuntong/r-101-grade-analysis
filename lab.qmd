@@ -92,7 +92,7 @@ n_abs1 <- grades |>
   group_by(Group) |>
   summarise("number of absent students" = sum(is.na(Exam)))
 
-n_abs1
+knitr::kable(n_abs1)
 ```
 
 # Question 9
@@ -109,7 +109,7 @@ n_abs1 |>
 long <- grades |>
   pivot_longer(col = c("Exam", starts_with("MCQ"), starts_with("Online_MCQ")), names_to = "name", values_to = "value")
 
-long
+knitr::kable(long)
 ```
 
 # Question 11
@@ -119,7 +119,7 @@ n_missing_grade <- long |>
   group_by(Id) |>
   summarise("number of missing grades" = sum(is.na(value)))
 
-n_missing_grade
+knitr::kable(n_missing_grade)
 ```
 
 # Question 12
@@ -137,7 +137,7 @@ n_abs2 <- long |>
   group_by(Group) |>
   summarise("number of absent students" = sum(is.na(value)))
 
-n_abs2
+knitr::kable(n_abs2)
 ```
 
 # Question 14
@@ -148,7 +148,7 @@ n_missing_online_tests <- long |>
   group_by(Id) |>
   summarise("number of missing online tests" = sum(is.na(value)))
 
-n_missing_online_tests
+knitr::kable(n_missing_online_tests)
 ```
 
 # Question 15
@@ -169,7 +169,7 @@ two_col_table1 <- long |>
   group_by(Id) |>
   summarise("Missed" = (sum(is.na(value)) > 0))
 
-two_col_table1
+knitr::kable(two_col_table1)
 ```
 
 # Question 17
